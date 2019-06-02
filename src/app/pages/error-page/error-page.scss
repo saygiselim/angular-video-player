@@ -1,0 +1,20 @@
+.page-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    margin: 0;
+    font-weight: bold;
+    text-align: center;
+}
+
+.error-code {
+    color: red;
+    font-size: 128px;
+    text-shadow: 1xp 1px 5px #333;
+}
+
+.error-message {
+    color: #999;
+}

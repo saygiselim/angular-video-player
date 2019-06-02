@@ -1,0 +1,439 @@
+/* video player theme colors */
+
+$primary: #fff;
+$secondary: #069339;
+$text-color: #fff;
+
+/* video player theme colors */
+
+
+/* overrides */
+
+$space: 5px;
+.row {
+    margin-left: -$space;
+    margin-right: -$space;
+}
+
+[class^='col-xs'] {
+    padding-left: $space;
+    padding-right: $space;
+}
+
+
+/* overrides */
+
+
+/* layout helpers */
+
+.col-fixed-15 {
+    width: 15px;
+}
+
+.col-fixed-25 {
+    width: 25px;
+}
+
+.col-fixed-50 {
+    width: 50px;
+}
+
+.col-fixed-75 {
+    width: 75px;
+}
+
+.col-fixed-100 {
+    width: 100px;
+}
+
+.col-fixed-150 {
+    width: 150px;
+}
+
+.table-layout {
+    display: table;
+    width: 100%;
+    .table-cell {
+        display: table-cell;
+    }
+}
+
+.padding-lr-5 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.padding-lr-10 {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.padding-lr-15 {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+/* layout helpers */
+
+video {
+    width: 100%;
+    height: 100%;
+    margin-bottom: -6px;
+    margin: 0 auto;
+}
+
+.video-wrapper {
+    position: relative;
+    min-width: 240px;
+    max-width: 100%;
+    max-height: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.fullscreen {
+    min-width: 100% !important;
+    min-height: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+}
+
+.video-poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    .video-overlay-header {
+        position: absolute;
+        height: 50px;
+        color: $text-color;
+        padding: 15px;
+        font-weight: bold;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 100%);
+        background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 100%);
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+    .video-overlay-buttons {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 180px;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+    }
+    .video-overlay-footer {
+        position: absolute;
+        height: 55px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        .video-custom-controls {
+            margin: 0 15px 0 15px;
+            color: $text-color;
+            font-size: 15px;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            padding: 10px 5px 10px 5px;
+        }
+    }
+}
+
+.play-pause-button {
+    position: relative;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background: $primary;
+    z-index: 10;
+    cursor: pointer;
+    padding: 5px;
+    margin: 0 auto;
+    .inner-circle {
+        position: relative;
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background: $secondary;
+    }
+    .shape-shifter {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 30px;
+        transform: translate(-50%, -50%);
+        transition: width 0.5s ease, border-left 0.1s ease;
+    }
+    .shape-shifter.play {
+        left: 55%;
+        width: 10px;
+        border: 20px solid transparent;
+        border-left: 30px solid $primary;
+        border-right: 0 solid transparent;
+    }
+    .shape-shifter.pause {
+        left: 50%;
+        width: 30px;
+        border-left: 10px solid $primary;
+        border-right: 10px solid $primary;
+    }
+}
+
+.play-pause-button.mini {
+    width: 15px;
+    height: 15px;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    margin-bottom: -2px;
+    .shape-shifter {
+        height: 15px;
+    }
+    .shape-shifter.play {
+        width: 12px;
+        border: 7px solid transparent;
+        border-left: 12px solid $primary;
+        border-right: 0 solid transparent;
+    }
+    .shape-shifter.pause {
+        width: 15px;
+        border-left: 5px solid $primary;
+        border-right: 5px solid $primary;
+    }
+}
+
+.prev-next-button {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: $primary;
+    padding: 5px;
+    cursor: pointer;
+    transition: left 0.5s ease-out, right 0.5s ease-out;
+    .inner-circle {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: $secondary;
+        padding: 10px;
+    }
+}
+
+.prev-next-button.prev {
+    position: absolute;
+    top: 0;
+    left: 65px;
+    .icon-shape {
+        background: transparent;
+        width: 5px;
+        height: 15px;
+        border: 10px solid transparent;
+        border-left: 5px solid transparent;
+        border-right: 15px solid $primary;
+    }
+    .icon-shape:before {
+        content: "|";
+        position: absolute;
+        color: $primary;
+        font-weight: bold;
+        font-size: 20px;
+        top: 4px;
+        left: 5px;
+    }
+}
+
+.prev-next-button.next {
+    position: absolute;
+    top: 0;
+    right: 65px;
+    .icon-shape {
+        background: transparent;
+        width: 5px;
+        height: 15px;
+        border: 10px solid transparent;
+        border-left: 15px solid $primary;
+        border-right: 5px solid transparent;
+    }
+    .icon-shape:after {
+        content: "|";
+        position: absolute;
+        color: $primary;
+        font-weight: bold;
+        font-size: 20px;
+        top: 4px;
+        right: 5px;
+    }
+}
+
+.video-overlay-buttons:hover {
+    .prev {
+        left: 0;
+    }
+    .next {
+        right: 0;
+    }
+}
+
+.seek-bar {
+    width: 100%;
+    height: 10px;
+    background: $secondary;
+    cursor: pointer;
+    border-radius: 5px;
+    .seek-bar-progress {
+        position: relative;
+        width: 0%;
+        height: 10px;
+        background: $primary;
+        pointer-events: none;
+        border-radius: 5px;
+        .seek-bar-handle {
+            position: absolute;
+            top: -2px;
+            right: -7px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: $primary;
+        }
+    }
+}
+
+.volume-control-wrapper {
+    position: relative;
+    .volume-bar {
+        position: absolute;
+        left: 4px;
+        bottom: 24px;
+        opacity: 0;
+        width: 8px;
+        height: 0;
+        background: $secondary;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: height 0.4s ease-out, opacity 0.8s ease-out;
+        .volume-bar-progress {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: $primary;
+            pointer-events: none;
+            border-radius: 5px;
+            .volume-bar-handle {
+                position: absolute;
+                top: -3px;
+                left: -1px;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: $primary;
+            }
+        }
+    }
+    .volume-button {
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+        color: $text-color;
+    }
+}
+
+
+/* CSS rules for devices has high resolution
+ * hight res tablets, mobile phones and pc
+ */
+
+@media (min-width:800px) {
+    .volume-control-wrapper:hover {
+        .volume-bar {
+            opacity: 1;
+            height: 40px;
+        }
+    }
+}
+
+
+/* CSS rules for devices has low resolution
+ * tablets and mobile phones
+ */
+
+@media (max-width:799px) {
+    .video-overlay-buttons {
+        transform: translate(-50%, -50%) scale(0.7) !important;
+    }
+}
+
+.fullscreen-button {
+    width: 15px;
+    height: 15px;
+    border: 2px dashed $primary;
+    cursor: pointer;
+    margin-bottom: -2px;
+}
+
+.fullscreen-button:hover {
+    transform: scale(1.2);
+}
+
+.fullscreen .fullscreen-button:hover {
+    transform: scale(0.8);
+}
+
+
+/* animated transititions */
+
+.animated {
+    animation-duration: 1s;
+    animation-timing-function: ease;
+}
+
+.fade.in {
+    animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade.out {
+    animation-name: fadeOut;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+
+/* animated transititions */

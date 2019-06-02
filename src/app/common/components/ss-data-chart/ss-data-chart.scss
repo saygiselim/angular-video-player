@@ -1,0 +1,17 @@
+.chart-container {
+    position: relative;
+    width: 100%;
+    min-height: 300px;
+    max-height: 600px;
+    canvas {
+        margin: 0 auto;
+    }
+}
+
+.vertical-center {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    font-weight: bold;
+}

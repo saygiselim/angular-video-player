@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+/* Bootstrap */
+
+$bootstrap-sass-asset-helper: '~bootstrap-sass/assets/fonts/bootstrap/';
+@import '~bootstrap-sass/assets/stylesheets/_bootstrap';
+
+/* Font Awesome */
+
+$fa-font-path: '~font-awesome/fonts/';
+@import '~font-awesome/scss/font-awesome';
+
+/* Global Styles */
+
+body {
+    margin: 0;
+    background: #e7e7e7;
+    font-family: Tahoma, Verdana, Segoe, sans-serif;
+}

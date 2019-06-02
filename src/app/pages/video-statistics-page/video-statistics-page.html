@@ -1,0 +1,13 @@
+<div class="row" *ngIf="!videoStatsChartData || videoStatsChartData.length === 0">
+    <div class="col-md-12 text-center bold">
+        <h2>Try to watch some video and come back here to see the magic <i class="fa fa-magic fa-lg text-primary" aria-hidden="true"></i></h2>
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <ss-data-chart [config]="videoStatsDurationChartConfig" [data]="videoStatsChartData"></ss-data-chart>
+        <hr />
+        <ss-data-chart [config]="videoStatsImpressionChartConfig" [data]="videoStatsChartData"></ss-data-chart>
+    </div>
+</div>

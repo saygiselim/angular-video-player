@@ -1,0 +1,21 @@
+.active {
+    i {
+        color: #337ab7;
+    }
+    font-weight: bold;
+}
+
+.footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-height: 50px;
+    text-align: right;
+    padding: 15px;
+    color: #999;
+    .copyright-text {
+        text-decoration: line-through;
+    }
+}

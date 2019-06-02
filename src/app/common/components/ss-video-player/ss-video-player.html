@@ -1,0 +1,66 @@
+<div #videoWrapper class="video-wrapper" [class.fullscreen]="isInFullScreenMode">
+    <video #video [src]="selectedVideoSource.source" (loadeddata)="onVideoLoaded()" (playing)="onVideoPlaying()" (timeupdate)="onVideoTimeUpdated()" (ended)="onVideoEnded()">
+        Sorry, Your browser does not support HTML5 video feature
+    </video>
+    <div class="video-poster animated fade" *ngIf="selectedVideoSource.poster" [class.in]="currentTime === 0" [class.out]="currentTime > 0" [style.background-image]="'url(' + selectedVideoSource.poster + ')'"></div>
+    <div #videoOverlay class="video-overlay" [class.in]="currentTime === 0" (mousemove)="clearOverlayTimeout(true)">
+        <div class="video-overlay-header">{{selectedVideoSource.title}}</div>
+        <div class="video-overlay-buttons">
+            <div class="prev-next-button prev" (click)="prev()" *ngIf="selectedVideoSourceIndex > 0">
+                <div class="inner-circle">
+                    <div class="icon-shape"></div>
+                </div>
+            </div>
+            <div class="play-pause-button" (click)="togglePlayingState()">
+                <div class="inner-circle">
+                    <div class="shape-shifter" [ngClass]="{ 'play': !isPlaying, 'pause': isPlaying }"></div>
+                </div>
+            </div>
+            <div class="prev-next-button next" (click)="next()" *ngIf="sources.length - 1 > selectedVideoSourceIndex">
+                <div class="inner-circle">
+                    <div class="icon-shape"></div>
+                </div>
+            </div>
+        </div>
+        <div class="video-overlay-footer" *ngIf="currentTime > 0">
+            <div class="video-custom-controls">
+                <div class="table-layout padding-lr-5">
+                    <div class="table-cell col-fixed-25">
+                        <div class="play-pause-button mini" (click)="togglePlayingState()">
+                            <div class="shape-shifter" [ngClass]="{ 'play': !isPlaying, 'pause': isPlaying }"></div>
+                        </div>
+                    </div>
+                    <div class="volume-control-wrapper table-cell col-fixed-25">
+                        <div class="volume-bar" (click)="onVolumeChange($event)" (mousemove)="onVolumeChanging($event)">
+                            <div class="volume-bar-progress" [style.top]="(100-volume) + '%'">
+                                <div class="volume-bar-handle"></div>
+                            </div>
+                        </div>
+                        <div class="volume-button text-center" (click)="toggleVolumeState()">
+                            <i class="fa fa-lg" [ngClass]="{'fa-volume-up': volume >= 50, 'fa-volume-down':volume > 0 && volume < 50, 'fa-volume-off': volume === 0}"></i>
+                        </div>
+                    </div>
+                    <div class="table-cell col-fixed-75 text-center">
+                        {{currentTime | secsToMins}}
+                    </div>
+
+                    <div class="table-cell">
+                        <div class="seek-bar" (click)="onSeek($event)" (mousemove)="onSeeking($event)">
+                            <div class="seek-bar-progress" [style.width]="seekBarPercentage + '%'">
+                                <div class="seek-bar-handle"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-cell col-fixed-75 text-center">
+                        {{duration | secsToMins}}
+                    </div>
+
+                    <div class="table-cell col-fixed-15">
+                        <div class="fullscreen-button pull-right" (click)="toggleFullscreen()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

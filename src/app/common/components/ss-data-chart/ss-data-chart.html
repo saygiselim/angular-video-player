@@ -1,0 +1,6 @@
+<div class="chart-container">
+    <div class="vertical-center text-center" *ngIf="!data || data.length === 0">
+        <p>Nothing to show</p>
+    </div>
+    <canvas #chartCanvas></canvas>
+</div>
