@@ -8,5 +8,4 @@ import { Component } from '@angular/core';
 export class ErrorPageComponent {
     public errorCode = 404;
     public errorMessage = 'Not Found';
-
 }
