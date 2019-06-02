@@ -17,7 +17,7 @@ Technologies and Third-party libraries used in this demonstration;
 - Chart.js - Simple yet flexible JavaScript charting for designers & developers
 - Lodash - A modern JavaScript utility library delivering modularity, performance & extras.
 
-Try it : https://saygiselim.github.io/angular-video-player/prod/
+Try it : https://saygiselim.github.io/angular-video-player/demo/
 
 ## Development server
 
