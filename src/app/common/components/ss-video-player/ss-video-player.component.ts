@@ -77,7 +77,7 @@ export class SSVideoPlayerComponent implements AfterViewInit, OnChanges, OnDestr
         this.changeDetectorRef.detectChanges();
 
         document.addEventListener('webkitfullscreenchange', () => {
-            this.isInFullScreenMode = document.webkitIsFullScreen;
+            this.isInFullScreenMode = (document as any).webkitIsFullScreen;
         }, false);
 
         document.addEventListener('keydown', (event) => {
@@ -281,8 +281,8 @@ export class SSVideoPlayerComponent implements AfterViewInit, OnChanges, OnDestr
                 wrapper.webkitRequestFullScreen();
             }
         } else {
-            if (document.webkitCancelFullScreen) {
-                document.webkitCancelFullScreen();
+            if ((document as any).webkitCancelFullScreen) {
+                (document as any).webkitCancelFullScreen();
             }
         }
     }
