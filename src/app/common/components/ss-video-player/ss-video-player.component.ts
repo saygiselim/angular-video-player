@@ -28,9 +28,9 @@ export class SSVideoPlayerComponent implements AfterViewInit, OnChanges, OnDestr
     @Input() sources: Array<SSVideoSource>;
     @Input() config?: SSPlayerConfig;
 
-    @ViewChild('videoWrapper') videoWrapper: ElementRef;
-    @ViewChild('videoOverlay') videoOverlay: ElementRef;
-    @ViewChild('video') videoRef: ElementRef;
+    @ViewChild('videoWrapper', { static: true }) videoWrapper: ElementRef;
+    @ViewChild('videoOverlay', { static: true }) videoOverlay: ElementRef;
+    @ViewChild('video', { static: true }) videoRef: ElementRef;
 
     public selectedVideoSource: SSVideoSource;
     public selectedVideoSourceIndex = 0;

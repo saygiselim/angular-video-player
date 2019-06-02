@@ -14,7 +14,7 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
     @Input() data: Array<any>;
     @Output() onClick: EventEmitter<any> = new EventEmitter();
 
-    @ViewChild('chartCanvas') chartCanvas: ElementRef;
+    @ViewChild('chartCanvas', { static: true }) chartCanvas: ElementRef;
 
     public chart: any;
 
