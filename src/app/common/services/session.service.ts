@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 
 export class SessionService {
-    public sessionID: string;
+    sessionID: string;
 
     constructor() {
         this.sessionID = this.generateUUIDV4();

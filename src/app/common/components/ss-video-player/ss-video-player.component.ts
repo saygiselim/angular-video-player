@@ -31,18 +31,18 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
     @ViewChild('videoOverlay', { static: true }) videoOverlay: ElementRef;
     @ViewChild('video', { static: true }) videoRef: ElementRef;
 
-    public selectedVideoSource: SSVideoSource;
-    public selectedVideoSourceIndex = 0;
+    selectedVideoSource: SSVideoSource;
+    selectedVideoSourceIndex = 0;
 
-    public video: HTMLMediaElement;
-    public isPlaying = false;
-    public isInFullScreenMode = false;
-    public volume = 100;
-    public currentTime = 0;
-    public duration = 0;
-    public seekBarPercentage = 0;
-    public overlayTimeoutInstance = null;
-    public timeBeforeHide = 3000; // 3 seconds;
+    video: HTMLMediaElement;
+    isPlaying = false;
+    isInFullScreenMode = false;
+    volume = 100;
+    currentTime = 0;
+    duration = 0;
+    seekBarPercentage = 0;
+    overlayTimeoutInstance = null;
+    timeBeforeHide = 3000; // 3 seconds;
 
     constructor(
         private changeDetectorRef: ChangeDetectorRef,

@@ -22,18 +22,16 @@ export class TrackerService {
      * You can tell to the tracker to start tracking.
      * @param videoTitle unique identifier for the video
      */
-    public startTracking(videoTitle: string) {
+    startTracking(videoTitle: string) {
         // to ensure it is stopped before start it again.
         this.stopTracking();
-        this._trackerTimer = setInterval(() => {
-            this.track(videoTitle);
-        }, 1000); // we should use one sec to correctly estimate watching times.
+        this._trackerTimer = setInterval(() => this.track(videoTitle), 1000); // we should use one sec to correctly estimate watching times.
     }
 
     /**
      * If tracking is running and there is no video is playing, you should stop the tracker.
      */
-    public stopTracking() {
+    stopTracking() {
         if (this._trackerTimer) {
             clearInterval(this._trackerTimer);
             this._trackerTimer = null;
@@ -70,7 +68,7 @@ export class TrackerService {
     /**
      * You can get collected tracking data and play with them.
      */
-    public getTrackingData(): Array<TrackingInfo> {
+    getTrackingData(): Array<TrackingInfo> {
         let trackingData: Array<TrackingInfo> = [];
         const rawTrackingData = [];
 
@@ -104,17 +102,18 @@ export class TrackerService {
 
         if (rawTrackingData.length > 0) {
             // we should process raw data before use it and proper way to do this is grouping by title.
-            trackingData = _.map(_.groupBy(rawTrackingData, 'title'), (group) => {
-
+            trackingData = _.map(_.groupBy(rawTrackingData, 'title'), group => {
                 const totalWatchingTime = _.sumBy(group, 'duration');
                 const impression = group.length;
 
-                return {
+                const trackingInfo: TrackingInfo = {
                     title: group[0].title,
                     duration: totalWatchingTime,
                     impression: group.length,
                     durationPerImpression: Math.floor(totalWatchingTime / impression)
                 };
+
+                return trackingInfo;
             });
         }
 
@@ -130,7 +129,7 @@ export class TrackerService {
     }
 }
 export interface TrackingInfo {
-    sessionID: string; // Current session id
+    sessionID?: string; // Current session id
     title: string; // Title of the video
     duration: number; // Total number of watching times
     impression: number; // Total impression count

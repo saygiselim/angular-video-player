@@ -7,7 +7,6 @@ import Chart from 'chart.js';
     templateUrl: 'ss-data-chart.html',
     styleUrls: ['ss-data-chart.scss']
 })
-
 export class SSDataChartComponent implements OnChanges, AfterViewInit {
     @Input() config: SSDataChartConfig;
     @Input() data: Array<any>;
@@ -15,7 +14,7 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
 
     @ViewChild('chartCanvas', { static: true }) chartCanvas: ElementRef;
 
-    public chart: any;
+    chart: any;
 
     ngOnChanges(simpleChanges: SimpleChanges) {
         // If we detect config or data change outside the component, we should re-render the chart.
@@ -26,7 +25,7 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
 
     ngAfterViewInit() {
         // It will be useful when window resizing, chart.js canvas resize method should be called on resize.
-        window.onresize = (event) => {
+        window.onresize = () => {
             this.chart.render(true);
             this.chart.resize();
             this.chart.draw();
@@ -40,7 +39,7 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
     renderChart(chartData: any): void {
         const that: this = this;
 
-        const config = {
+        const config: Chart.ChartConfiguration = {
             type: this.config.datasets[0].type,
             data: chartData,
             options: {
@@ -49,7 +48,7 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
                     display: true,
                     position: 'bottom'
                 },
-                onClick: function (ev, arrays) {
+                onClick: function (ev: MouseEvent, arrays: any[]) {
                     const selectedData = arrays && arrays.length > 0 ? that.data[arrays[0]._index] : null;
                     that.onClick.emit(selectedData);
                 }
@@ -140,7 +139,7 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
             const color = this.generateRandomColor();
 
             const foundColors = _.find(colors, color);
-            if (foundColors && foundColors.length > 0) {
+            if (foundColors) {
                 i--;
                 continue;
             }
@@ -178,7 +177,7 @@ export enum SSChartType {
     Bar = 'bar',
     Radar = 'radar',
     Pie = 'pie',
-    Dougnut = 'doughnut',
+    Doughnut = 'doughnut',
     PolarArea = 'polarArea',
     Scatter = 'scatter'
 }
