@@ -2,7 +2,6 @@ import { Component, Input, Output, AfterViewInit, OnChanges, SimpleChanges, View
 
 import _ from 'lodash';
 import Chart from 'chart.js';
-
 @Component({
     selector: 'ss-data-chart',
     templateUrl: 'ss-data-chart.html',

@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-
 @Injectable()
-
 export class StorageService {
-
     /**
      * You can store a value in the storage with this function.
      * @param key unique identifier for the data will be stored

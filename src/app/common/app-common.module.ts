@@ -14,8 +14,6 @@ import { SecsToMinsPipe } from './pipes/secs-to-mins.pipe';
 import { StorageService } from './services/storage.service';
 import { SessionService } from './services/session.service';
 
-
-
 @NgModule({
     declarations: [
         SSVideoPlayerComponent,
@@ -39,7 +37,4 @@ import { SessionService } from './services/session.service';
         StorageService
     ]
 })
-
-export class AppCommonModule {
-
-}
+export class AppCommonModule { }

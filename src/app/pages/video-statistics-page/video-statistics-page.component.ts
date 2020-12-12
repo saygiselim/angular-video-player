@@ -6,7 +6,6 @@ import { TrackerService } from '../../common/services/tracker.service';
     templateUrl: 'video-statistics-page.html',
     providers: [TrackerService]
 })
-
 export class VideoStatisticsPageComponent {
     public videoStatsDurationChartConfig: SSDataChartConfig;
     public videoStatsImpressionChartConfig: SSDataChartConfig;

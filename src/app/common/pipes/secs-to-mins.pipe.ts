@@ -1,12 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-    name: 'secsToMins'
-})
-
 /**
  * it converts numbers to string formatted like 00:00
  */
+@Pipe({
+    name: 'secsToMins'
+})
 export class SecsToMinsPipe implements PipeTransform {
     transform(secs: number): string {
 

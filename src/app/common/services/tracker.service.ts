@@ -3,11 +3,8 @@ import { SessionService } from './session.service';
 import { StorageService } from './storage.service';
 
 import _ from 'lodash';
-
 @Injectable()
-
 export class TrackerService {
-
     private _trackerPrefix = 'tracker_';
     private _trackerID: string;
     private _trackerTimer: any;
@@ -44,11 +41,10 @@ export class TrackerService {
     }
 
     /**
-     * Everytime this method called, it will increase the value of the duration that is belong to the tracked video.
+     * Every time this method called, it will increase the value of the duration that is belong to the tracked video.
      * @param videoTitle unique identifier for the video
      */
     private track(videoTitle: string) {
-
         // this method generates object like <trackerID>:"{<sessionID>:{<videoTitle>:<duration>,...}}"
         const sessionObject = this._trackerObject[this.sessionService.sessionID];
 
@@ -133,7 +129,6 @@ export class TrackerService {
         return prefix + Math.random().toString(36).substr(2, 9);
     }
 }
-
 export interface TrackingInfo {
     sessionID: string; // Current session id
     title: string; // Title of the video

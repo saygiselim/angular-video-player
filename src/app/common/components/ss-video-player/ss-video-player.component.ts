@@ -8,12 +8,11 @@ import {
     ChangeDetectorRef,
     OnDestroy,
     OnChanges,
-    SimpleChanges
+    SimpleChanges,
+    OnInit
 } from '@angular/core';
 
 import { TrackerService } from '../../services/tracker.service';
-
-// services
 
 @Component({
     selector: 'ss-video-player',
@@ -24,7 +23,7 @@ import { TrackerService } from '../../services/tracker.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class SSVideoPlayerComponent implements AfterViewInit, OnChanges, OnDestroy {
+export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     @Input() sources: Array<SSVideoSource>;
     @Input() config?: SSPlayerConfig;
 
@@ -48,8 +47,9 @@ export class SSVideoPlayerComponent implements AfterViewInit, OnChanges, OnDestr
     constructor(
         private changeDetectorRef: ChangeDetectorRef,
         private trackerService: TrackerService
-    ) {
+    ) { }
 
+    ngOnInit() {
         // let's give initial values to selectedVideoSource to prevent any null or undefined related errors
         this.selectedVideoSource = {
             title: '',
@@ -81,7 +81,7 @@ export class SSVideoPlayerComponent implements AfterViewInit, OnChanges, OnDestr
         }, false);
 
         document.addEventListener('keydown', (event) => {
-            if (event.keyCode === 32 && this.isInFullScreenMode) {
+            if (event.key === " " && this.isInFullScreenMode) {
                 this.togglePlayingState();
             }
         });
@@ -287,7 +287,6 @@ export class SSVideoPlayerComponent implements AfterViewInit, OnChanges, OnDestr
         }
     }
 
-    // Farewell to the life
     ngOnDestroy(): void {
         this.trackerService.stopTracking();
     }
@@ -306,7 +305,7 @@ export enum SSLoopType {
     All
 }
 
-export interface SSVideoSource {
+export class SSVideoSource {
     title: string; // Title of the video
     source: string; // Local or remote path of the video
     poster?: string; // Local or remote path of the poster image

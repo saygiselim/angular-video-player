@@ -1,31 +1,25 @@
 /* video player theme colors */
-
 $primary: #fff;
 $secondary: #069339;
 $text-color: #fff;
 
 /* video player theme colors */
 
-
 /* overrides */
-
 $space: 5px;
 .row {
     margin-left: -$space;
     margin-right: -$space;
 }
 
-[class^='col-xs'] {
+[class^="col-xs"] {
     padding-left: $space;
     padding-right: $space;
 }
 
-
 /* overrides */
 
-
 /* layout helpers */
-
 .col-fixed-15 {
     width: 15px;
 }
@@ -72,7 +66,6 @@ $space: 5px;
     padding-left: 15px;
     padding-right: 15px;
 }
-
 
 /* layout helpers */
 
@@ -360,12 +353,11 @@ video {
     }
 }
 
-
 /* CSS rules for devices has high resolution
  * hight res tablets, mobile phones and pc
  */
 
-@media (min-width:800px) {
+@media (min-width: 800px) {
     .volume-control-wrapper:hover {
         .volume-bar {
             opacity: 1;
@@ -374,12 +366,11 @@ video {
     }
 }
 
-
 /* CSS rules for devices has low resolution
  * tablets and mobile phones
  */
 
-@media (max-width:799px) {
+@media (max-width: 799px) {
     .video-overlay-buttons {
         transform: translate(-50%, -50%) scale(0.7) !important;
     }
@@ -400,7 +391,6 @@ video {
 .fullscreen .fullscreen-button:hover {
     transform: scale(0.8);
 }
-
 
 /* animated transitions */
 
@@ -434,6 +424,5 @@ video {
         opacity: 0;
     }
 }
-
 
 /* animated transitions */

@@ -37,5 +37,4 @@ const routes: Route[] = [
   providers: [],
   bootstrap: [AppComponent]
 })
-
 export class AppModule { }
