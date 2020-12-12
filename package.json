@@ -5,11 +5,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "build:github-demo": "ng build --prod --baseHref=/angular-video-player/demo/ --outputPath=demo/",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build": "ng build",
+    "build:github-demo": "ng build --prod --baseHref=/angular-video-player/demo/ --outputPath=demo/"
   },
   "dependencies": {
     "@angular/animations": "8.0.0",
