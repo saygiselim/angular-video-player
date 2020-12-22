@@ -1,8 +1,11 @@
 <div #videoWrapper class="video-wrapper" [class.fullscreen]="isInFullScreenMode">
-    <video #video [src]="selectedVideoSource.source" (loadeddata)="onVideoLoaded()" (playing)="onVideoPlaying()" (timeupdate)="onVideoTimeUpdated()" (ended)="onVideoEnded()">
+    <video #video [src]="selectedVideoSource.source" (loadeddata)="onVideoLoaded()" (playing)="onVideoPlaying()"
+        (timeupdate)="onVideoTimeUpdated()" (ended)="onVideoEnded()">
         Sorry, Your browser does not support HTML5 video feature
     </video>
-    <div class="video-poster animated fade" *ngIf="selectedVideoSource.poster" [class.in]="currentTime === 0" [class.out]="currentTime > 0" [style.background-image]="'url(' + selectedVideoSource.poster + ')'"></div>
+    <div class="video-poster" *ngIf="selectedVideoSource.poster && currentTime === 0">
+        <img [src]="selectedVideoSource.poster" alt="poster" />
+    </div>
     <div #videoOverlay class="video-overlay" [class.in]="currentTime === 0" (mousemove)="clearOverlayTimeout(true)">
         <div class="video-overlay-header">{{selectedVideoSource.title}}</div>
         <div class="video-overlay-buttons">
@@ -37,7 +40,8 @@
                             </div>
                         </div>
                         <div class="volume-button text-center" (click)="toggleVolumeState()">
-                            <i class="fa fa-lg" [ngClass]="{'fa-volume-up': volume >= 50, 'fa-volume-down':volume > 0 && volume < 50, 'fa-volume-off': volume === 0}"></i>
+                            <i class="fa fa-lg"
+                                [ngClass]="{'fa-volume-up': volume >= 50, 'fa-volume-down':volume > 0 && volume < 50, 'fa-volume-off': volume === 0}"></i>
                         </div>
                     </div>
                     <div class="table-cell col-fixed-75 text-center">
