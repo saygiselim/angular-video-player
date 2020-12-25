@@ -81,7 +81,7 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
         }, false);
 
         document.addEventListener('keydown', (event) => {
-            if (event.key === " " && this.isInFullScreenMode) {
+            if (event.key === ' ' && this.isInFullScreenMode) {
                 this.togglePlayingState();
             }
         });
