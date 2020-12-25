@@ -15,7 +15,7 @@ export class StorageService {
      * @param key unique identifier for the stored data
      * @param defaultValue if no data found, this value will be returned
      */
-    getValue(key: string, defaultValue?: string): string {
+    getValue(key: string, defaultValue?: string): string | null {
         return window.localStorage.getItem(key) || defaultValue || null;
     }
 
@@ -24,7 +24,7 @@ export class StorageService {
      * @param key unique identifier for the stored object
      * @param object object to be stored in the storage
      */
-    putObject(key: string, object: object): void {
+    putObject(key: string, object: any): void {
         if (typeof object === 'object') {
             // Object must be converted to string before store.
             const value = JSON.stringify(object);
@@ -39,7 +39,7 @@ export class StorageService {
      * @param key unique identifier for the stored object
      * @param defaultValue if no data found, this object will be returned
      */
-    getObject(key, defaultObject?: object): object {
+    getObject(key: string, defaultObject?: any): any {
         const value = this.getValue(key);
         return value ? JSON.parse(value) : (defaultObject || null);
     }

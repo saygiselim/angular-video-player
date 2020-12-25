@@ -2,39 +2,39 @@ import { Injectable } from '@angular/core';
 import { SessionService } from './session.service';
 import { StorageService } from './storage.service';
 
-import _ from 'lodash';
+import * as _ from 'lodash-es';
 @Injectable()
 export class TrackerService {
-    private _trackerPrefix = 'tracker_';
-    private _trackerID: string;
-    private _trackerTimer: any;
-    private _trackerObject: object = {};
+    private trackerPrefix = 'tracker_';
+    private trackerID: string;
+    private trackerTimer: any;
+    private trackerObject: any = {};
 
     constructor(
         private sessionService: SessionService,
         private storageService: StorageService
     ) {
-        this._trackerID = this.simpleIDGenerator(this._trackerPrefix);
-        this._trackerObject = this.storageService.getObject(this._trackerID, {});
+        this.trackerID = this.simpleIDGenerator(this.trackerPrefix);
+        this.trackerObject = this.storageService.getObject(this.trackerID, {});
     }
 
     /**
      * You can tell to the tracker to start tracking.
      * @param videoTitle unique identifier for the video
      */
-    startTracking(videoTitle: string) {
+    startTracking(videoTitle: string): void {
         // to ensure it is stopped before start it again.
         this.stopTracking();
-        this._trackerTimer = setInterval(() => this.track(videoTitle), 1000); // we should use one sec to correctly estimate watching times.
+        this.trackerTimer = setInterval(() => this.track(videoTitle), 1000); // we should use one sec to correctly estimate watching times.
     }
 
     /**
      * If tracking is running and there is no video is playing, you should stop the tracker.
      */
-    stopTracking() {
-        if (this._trackerTimer) {
-            clearInterval(this._trackerTimer);
-            this._trackerTimer = null;
+    stopTracking(): void {
+        if (this.trackerTimer) {
+            clearInterval(this.trackerTimer);
+            this.trackerTimer = null;
         }
     }
 
@@ -42,27 +42,27 @@ export class TrackerService {
      * Every time this method called, it will increase the value of the duration that is belong to the tracked video.
      * @param videoTitle unique identifier for the video
      */
-    private track(videoTitle: string) {
+    private track(videoTitle: string): void {
         // this method generates object like <trackerID>:"{<sessionID>:{<videoTitle>:<duration>,...}}"
-        const sessionObject = this._trackerObject[this.sessionService.sessionID];
+        const sessionObject = this.trackerObject[this.sessionService.sessionID];
 
         if (!sessionObject) {
-            this._trackerObject[this.sessionService.sessionID] = {};
+            this.trackerObject[this.sessionService.sessionID] = {};
         }
 
-        const videoObject = this._trackerObject[this.sessionService.sessionID][videoTitle];
+        const videoObject = this.trackerObject[this.sessionService.sessionID][videoTitle];
 
         if (!videoObject) {
-            this._trackerObject[this.sessionService.sessionID][videoTitle] = 0;
+            this.trackerObject[this.sessionService.sessionID][videoTitle] = 0;
         }
 
         // we are adding one sec to the current data
-        this._trackerObject[this.sessionService.sessionID][videoTitle] += 1;
+        this.trackerObject[this.sessionService.sessionID][videoTitle] += 1;
 
         // after increment we should save data
-        this.storageService.putObject(this._trackerID, this._trackerObject);
+        this.storageService.putObject(this.trackerID, this.trackerObject);
 
-        console.log('Hey, i am ' + this._trackerID + ' and you are watching "' + videoTitle + '", right ?');
+        console.log('Hey, i am ' + this.trackerID + ' and you are watching "' + videoTitle + '", right ?');
     }
 
     /**
@@ -75,7 +75,7 @@ export class TrackerService {
         for (const key in localStorage) {
             if (localStorage.hasOwnProperty(key)) {
 
-                if (key.indexOf(this._trackerPrefix) < 0) {
+                if (key.indexOf(this.trackerPrefix) < 0) {
                     // If it is not a tracking key, we will skip it.
                     continue;
                 }
@@ -87,8 +87,8 @@ export class TrackerService {
                         for (const title in trackerObject[sessionID]) {
                             if (trackerObject[sessionID].hasOwnProperty(title)) {
                                 const statInfo = {
-                                    sessionID: sessionID,
-                                    title: title,
+                                    sessionID,
+                                    title,
                                     duration: trackerObject[sessionID][title]
                                 };
 

@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 // components
 import { SSVideoPlayerComponent } from './components/ss-video-player/ss-video-player.component';
 import { SSDataChartComponent } from './components/ss-data-chart/ss-data-chart.component';
-import { SSInputComponent } from './components/ss-input/ss-input.component';
 
 // pipes
 import { SecsToMinsPipe } from './pipes/secs-to-mins.pipe';
@@ -18,7 +17,6 @@ import { SessionService } from './services/session.service';
     declarations: [
         SSVideoPlayerComponent,
         SSDataChartComponent,
-        SSInputComponent,
         SecsToMinsPipe
     ],
     imports: [
@@ -28,7 +26,6 @@ import { SessionService } from './services/session.service';
     exports: [
         SSVideoPlayerComponent,
         SSDataChartComponent,
-        SSInputComponent,
         FormsModule
     ],
     providers: [

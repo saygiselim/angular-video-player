@@ -8,7 +8,7 @@ export class AppComponent {
   title = 'Video Player Showcase';
   isMenuCollapsed = true;
 
-  toggleMenu() {
+  toggleMenu(): void {
     this.isMenuCollapsed = !this.isMenuCollapsed;
   }
 }

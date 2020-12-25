@@ -1,43 +1,53 @@
-import { Component, Input, Output, AfterViewInit, OnChanges, SimpleChanges, ViewChild, ElementRef, EventEmitter } from '@angular/core';
+import {
+    Component,
+    Input,
+    Output,
+    AfterViewInit,
+    OnChanges,
+    SimpleChanges,
+    ViewChild,
+    ElementRef,
+    EventEmitter
+} from '@angular/core';
 
-import _ from 'lodash';
-import Chart from 'chart.js';
+import * as _ from 'lodash-es';
+import { Chart, ChartData } from 'chart.js';
 @Component({
     selector: 'ss-data-chart',
     templateUrl: 'ss-data-chart.html',
     styleUrls: ['ss-data-chart.scss']
 })
 export class SSDataChartComponent implements OnChanges, AfterViewInit {
-    @Input() config: SSDataChartConfig;
-    @Input() data: Array<any>;
-    @Output() onClick: EventEmitter<any> = new EventEmitter();
+    @Input() config!: SSDataChartConfig;
+    @Input() data: any[] = [];
+    @Output() clicked = new EventEmitter<any>();
 
-    @ViewChild('chartCanvas', { static: true }) chartCanvas: ElementRef;
+    @ViewChild('chartCanvas') chartCanvas?: ElementRef;
 
-    chart: any;
+    chart?: Chart;
 
-    ngOnChanges(simpleChanges: SimpleChanges) {
+    ngOnChanges(simpleChanges: SimpleChanges): void {
         // If we detect config or data change outside the component, we should re-render the chart.
         if (simpleChanges.config || simpleChanges.data) {
             this.renderChart(this.getChartData());
         }
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         // It will be useful when window resizing, chart.js canvas resize method should be called on resize.
         window.onresize = () => {
-            this.chart.render(true);
-            this.chart.resize();
-            this.chart.draw();
+            this.chart?.render();
+            this.chart?.resize();
         };
     }
 
     /**
      * It renders chart with the given data
+     *
      * @param chartData processed chart data
      */
     renderChart(chartData: any): void {
-        const that: this = this;
+        const that = this;
 
         const config: Chart.ChartConfiguration = {
             type: this.config.datasets[0].type,
@@ -48,9 +58,9 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
                     display: true,
                     position: 'bottom'
                 },
-                onClick: function (ev: MouseEvent, arrays: any[]) {
+                onClick: (ev: MouseEvent, arrays: any[]) => {
                     const selectedData = arrays && arrays.length > 0 ? that.data[arrays[0]._index] : null;
-                    that.onClick.emit(selectedData);
+                    that.clicked.emit(selectedData);
                 }
             }
         };
@@ -61,7 +71,6 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
             if (this.chart) {
                 // If we have a recent chart reference, it will be better to destroy it.
                 this.chart.destroy();
-                this.chart = null;
             }
 
             this.chart = new Chart(this.chartCanvas.nativeElement, config);
@@ -71,20 +80,22 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
     /**
      * creates chart data that can be used by chart.js with the given raw data.
      */
-    getChartData() {
-        const data = {
-            labels: this.config.labels ? _.cloneDeep(this.config.labels) : [],
-            datasets: [],
+    getChartData(): ChartData {
+        const labels = this.config.labels || [];
+        const data: ChartData = {
+            labels: [...labels],
+            datasets: []
         };
+
+        data.datasets = [];
 
         for (const index in this.data) {
             if (this.data.hasOwnProperty(index)) {
-                if (this.config.labelProperty) {
+                if (this.config.labelProperty && data.labels) {
                     data.labels.push(this.data[index][this.config.labelProperty]);
                 }
 
                 for (let i = 0; i < this.config.datasets.length; i++) {
-
                     if (data.datasets.length <= i) {
                         const colors = this.generateRandomColors(this.data.length);
 
@@ -100,11 +111,16 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
                         data.datasets[i] = _.merge(data.datasets[i], this.config.datasets[i].options);
                     }
 
-                    if (this.config.datasets[i].labelProperty) {
-                        data.datasets[i].label = this.data[index][this.config.datasets[i].labelProperty];
-                    }
+                    if (this.config.datasets[i]) {
+                        const labelProperty = this.config.datasets[i].labelProperty;
+                        if (labelProperty) {
+                            data.datasets[i].label = this.data[index][labelProperty];
+                        }
 
-                    data.datasets[i].data.push(this.data[index][this.config.datasets[i].valueProperty]);
+                        if (data.datasets[i].data) {
+                            (data.datasets[i].data as number[]).push(this.data[index][this.config.datasets[i].valueProperty]);
+                        }
+                    }
                 }
             }
         }

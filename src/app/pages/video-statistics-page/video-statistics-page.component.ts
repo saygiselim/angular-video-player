@@ -9,7 +9,7 @@ import { TrackerService } from '../../common/services/tracker.service';
 export class VideoStatisticsPageComponent {
     videoStatsDurationChartConfig: SSDataChartConfig;
     videoStatsImpressionChartConfig: SSDataChartConfig;
-    videoStatsWatchingTimesPerImpressionChartConfig: SSDataChartConfig;
+    videoStatsWatchingTimesPerImpressionChartConfig?: SSDataChartConfig;
     videoStatsChartData: Array<any> = [];
 
     constructor(private trackerService: TrackerService) {

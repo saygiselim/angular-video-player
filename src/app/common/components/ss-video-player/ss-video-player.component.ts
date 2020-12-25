@@ -24,24 +24,24 @@ import { TrackerService } from '../../services/tracker.service';
 })
 
 export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
-    @Input() sources: Array<SSVideoSource>;
-    @Input() config?: SSPlayerConfig;
+    @Input() sources: SSVideoSource[] = [];
+    @Input() config!: SSPlayerConfig;
 
-    @ViewChild('videoWrapper', { static: true }) videoWrapper: ElementRef;
-    @ViewChild('videoOverlay', { static: true }) videoOverlay: ElementRef;
-    @ViewChild('video', { static: true }) videoRef: ElementRef;
+    @ViewChild('videoWrapper') videoWrapper!: ElementRef;
+    @ViewChild('videoOverlay') videoOverlay!: ElementRef;
+    @ViewChild('video') videoRef!: ElementRef;
 
-    selectedVideoSource: SSVideoSource;
+    selectedVideoSource!: SSVideoSource;
     selectedVideoSourceIndex = 0;
 
-    video: HTMLMediaElement;
+    video?: HTMLVideoElement;
     isPlaying = false;
     isInFullScreenMode = false;
     volume = 100;
     currentTime = 0;
     duration = 0;
     seekBarPercentage = 0;
-    overlayTimeoutInstance = null;
+    overlayTimeoutInstance: any;
     timeBeforeHide = 3000; // 3 seconds;
 
     constructor(
@@ -49,7 +49,7 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
         private trackerService: TrackerService
     ) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         // let's give initial values to selectedVideoSource to prevent any null or undefined related errors
         this.selectedVideoSource = {
             title: '',
@@ -67,9 +67,9 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
         };
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         this.selectedVideoSource = this.sources[this.selectedVideoSourceIndex];
-        this.video = this.videoRef.nativeElement;
+        this.video = this.videoRef?.nativeElement;
 
         this.clearOverlayTimeout();
 
@@ -98,14 +98,14 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
         }
     }
 
-    play(index?: number) {
+    play(index?: number): void {
         if (typeof index !== 'undefined' && this.sources.length > index) {
             this.stop();
             this.selectedVideoSourceIndex = index;
             this.selectedVideoSource = this.sources[this.selectedVideoSourceIndex];
         }
 
-        this.video.play();
+        this.video?.play();
         this.isPlaying = true;
 
         this.clearOverlayTimeout(true);
@@ -115,8 +115,8 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
         }
     }
 
-    pause() {
-        this.video.pause();
+    pause(): void {
+        this.video?.pause();
         this.isPlaying = false;
 
         this.clearOverlayTimeout();
@@ -126,12 +126,12 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
         }
     }
 
-    stop() {
+    stop(): void {
         this.pause();
-        this.skip((!this.selectedVideoSource.poster && this.selectedVideoSource.initialTime) || 0);
+        this.skip((!this.selectedVideoSource?.poster && this.selectedVideoSource?.initialTime) || 0);
     }
 
-    next() {
+    next(): void {
         this.pause();
 
         if (this.selectedVideoSourceIndex < this.sources.length - 1) {
@@ -141,7 +141,7 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
         this.selectedVideoSource = this.sources[this.selectedVideoSourceIndex];
     }
 
-    prev() {
+    prev(): void {
         this.pause();
 
         if (this.selectedVideoSourceIndex > 0) {
@@ -151,7 +151,7 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
         this.selectedVideoSource = this.sources[this.selectedVideoSourceIndex];
     }
 
-    togglePlayingState() {
+    togglePlayingState(): void {
         if (this.isPlaying) {
             this.pause();
         } else {
@@ -159,16 +159,18 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
         }
     }
 
-    toggleVolumeState() {
+    toggleVolumeState(): void {
         this.volume = this.volume > 0 ? 0 : 100;
 
-        this.video.volume = this.volume / 100;
+        if (this.video) {
+            this.video.volume = this.volume / 100;
+        }
     }
 
-    onVideoLoaded() {
+    onVideoLoaded(): void {
         // This is needed for video duration otherwise duration variable of the video will be NaN (stands for not a number)
         // Also this will trigger the ontimeupdated event so we can update the currentTime and duration variables on load
-        this.video.play();
+        this.video?.play();
 
         // if autoplay is true then we should not stop it;
         if (!this.config.autoplay && !this.isPlaying) {
@@ -177,20 +179,22 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
             this.play();
         }
 
-        this.video.volume = this.volume ? 1 : 0;
+        if (this.video) {
+            this.video.volume = this.volume ? 1 : 0;
+        }
     }
 
-    onVideoPlaying() {
+    onVideoPlaying(): void {
 
     }
 
-    onVideoTimeUpdated() {
-        this.currentTime = this.video.currentTime || 0;
-        this.duration = this.video.duration || 0;
+    onVideoTimeUpdated(): void {
+        this.currentTime = this.video?.currentTime || 0;
+        this.duration = this.video?.duration || 0;
         this.seekBarPercentage = Math.floor((this.currentTime / this.duration) * 100);
     }
 
-    onVideoEnded() {
+    onVideoEnded(): void {
         switch (this.config.loop) {
 
             case SSLoopType.Once:
@@ -215,64 +219,61 @@ export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges,
         }
     }
 
-    onVolumeChange(ev: MouseEvent) {
-        const volumeBarHeight = ev.target['offsetHeight']; // Computed width of the volume bar element
+    onVolumeChange(ev: MouseEvent): void {
+        const volumeBarHeight = (ev.target as any).offsetHeight; // Computed width of the volume bar element
         const ratio = (volumeBarHeight - ev.offsetY) / volumeBarHeight; // it will change between 0 and 1
 
-        this.video.volume = ratio;
-        this.volume = ratio * 100;
+        if (this.video) {
+            this.video.volume = ratio;
+            this.volume = ratio * 100;
+        }
     }
 
-    onVolumeChanging(ev: MouseEvent) {
+    onVolumeChanging(ev: MouseEvent): void {
         if (ev.buttons > 0) {
             this.onVolumeChange(ev);
         }
     }
 
-    onSeek(ev: MouseEvent) {
-        const seekBarWidth = ev.target['offsetWidth']; // Computed width of the seek bar element
+    onSeek(ev: MouseEvent): void {
+        const seekBarWidth = (ev.target as any).offsetWidth; // Computed width of the seek bar element
         const ratio = ev.offsetX / seekBarWidth; // it will change between 0 and 1
         const computedPosition = this.duration * ratio;
 
         this.skip(computedPosition);
     }
 
-    onSeeking(ev: MouseEvent) {
+    onSeeking(ev: MouseEvent): void {
         if (ev.buttons > 0) {
             this.onSeek(ev);
         }
     }
 
-    skip(value: number) {
-        this.video.currentTime = value;
+    skip(value: number): void {
+        if (this.video) {
+            this.video.currentTime = value;
+        }
     }
 
-    clearOverlayTimeout(reset?: boolean) {
-        // Parent scope (that), it will be needed in setTimeout function
-        // because scope of the setTimeout different than parent scope
-        // so if we use "this" keyword in the function of setTimeout, it will give us the scope of the function (Window)
-        // hence we will use "that" reference constant in the setTimeout.
-        // Actually we can use lambda expression to create a function
-        // and we can access the current scope with "this" but i will use this for an example.
-        const that = this;
-
-        this.videoOverlay.nativeElement.style.opacity = 0.8;
-        this.videoOverlay.nativeElement.style.cursor = 'auto';
+    clearOverlayTimeout(reset?: boolean): void {
+        if (this.videoOverlay) {
+            this.videoOverlay.nativeElement.style.opacity = 0.8;
+            this.videoOverlay.nativeElement.style.cursor = 'auto';
+        }
 
         if (this.overlayTimeoutInstance) {
             clearTimeout(this.overlayTimeoutInstance);
-            this.overlayTimeoutInstance = null;
         }
 
         if (reset && this.isPlaying) {
-            this.overlayTimeoutInstance = setTimeout(function () {
-                that.videoOverlay.nativeElement.style.opacity = 0;
-                that.videoOverlay.nativeElement.style.cursor = 'none';
+            this.overlayTimeoutInstance = setTimeout(() => {
+                this.videoOverlay.nativeElement.style.opacity = 0;
+                this.videoOverlay.nativeElement.style.cursor = 'none';
             }, this.timeBeforeHide);
         }
     }
 
-    toggleFullscreen() {
+    toggleFullscreen(): void {
         const wrapper = this.videoWrapper.nativeElement;
 
         // for more information: https://developer.mozilla.org/en-US/docs/Web/API/Document/fullscreen
@@ -305,7 +306,7 @@ export enum SSLoopType {
     All
 }
 
-export class SSVideoSource {
+export interface SSVideoSource {
     title: string; // Title of the video
     source: string; // Local or remote path of the video
     poster?: string; // Local or remote path of the poster image

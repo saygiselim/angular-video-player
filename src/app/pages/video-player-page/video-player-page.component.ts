@@ -5,17 +5,14 @@ import { SSVideoSource, SSPlayerConfig, SSLoopType } from '../../common/componen
     templateUrl: 'video-player-page.html'
 })
 export class VideoPlayerPageComponent implements OnInit {
-    playerConfig: SSPlayerConfig;
-    videoSources: Array<SSVideoSource> = [];
-    videoSource: SSVideoSource = new SSVideoSource();
+    playerConfig: SSPlayerConfig = {
+        loop: SSLoopType.All,
+        autoplay: false,
+        trackUser: true
+    };
+    videoSources: SSVideoSource[] = [];
 
-    ngOnInit() {
-        this.playerConfig = {
-            loop: SSLoopType.All,
-            autoplay: false,
-            trackUser: true
-        };
-
+    ngOnInit(): void {
         this.videoSources = [
             {
                 title: 'Big Buck Bunny - 2008',
@@ -33,15 +30,5 @@ export class VideoPlayerPageComponent implements OnInit {
                 source: 'http://media.xiph.org/mango/tears_of_steel_1080p.webm'
             }
         ];
-    }
-
-    addVideoSource(videoSource: SSVideoSource) {
-        this.videoSources.push(videoSource);
-
-        this.videoSource = videoSource;
-    }
-
-    removeVideoSource(index: number) {
-        this.videoSources = this.videoSources.filter(vs => vs !== this.videoSources[index]);
     }
 }

@@ -32,7 +32,7 @@ const routes: Route[] = [
     BrowserModule,
     AppCommonModule,
     FormsModule,
-    RouterModule.forRoot(routes, { useHash: true, relativeLinkResolution: 'legacy' })
+    RouterModule.forRoot(routes, { useHash: false, relativeLinkResolution: 'legacy' })
   ],
   providers: [],
   bootstrap: [AppComponent]
