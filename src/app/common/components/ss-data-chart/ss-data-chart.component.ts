@@ -1,13 +1,10 @@
 import {
     Component,
     Input,
-    Output,
-    AfterViewInit,
     OnChanges,
     SimpleChanges,
     ViewChild,
-    ElementRef,
-    EventEmitter
+    ElementRef
 } from '@angular/core';
 
 import * as _ from 'lodash-es';
@@ -17,14 +14,13 @@ import { Chart, ChartData } from 'chart.js';
     templateUrl: 'ss-data-chart.html',
     styleUrls: ['ss-data-chart.scss']
 })
-export class SSDataChartComponent implements OnChanges, AfterViewInit {
-    @Input() config!: SSDataChartConfig;
+export class SSDataChartComponent implements OnChanges {
+    @Input() config: SSDataChartConfig = new SSDataChartConfig();
     @Input() data: any[] = [];
-    @Output() clicked = new EventEmitter<any>();
 
-    @ViewChild('chartCanvas') chartCanvas?: ElementRef;
+    @ViewChild('chartCanvas', { static: true }) chartCanvas?: ElementRef;
 
-    chart?: Chart;
+    private chart?: Chart | null;
 
     ngOnChanges(simpleChanges: SimpleChanges): void {
         // If we detect config or data change outside the component, we should re-render the chart.
@@ -33,22 +29,12 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
         }
     }
 
-    ngAfterViewInit(): void {
-        // It will be useful when window resizing, chart.js canvas resize method should be called on resize.
-        window.onresize = () => {
-            this.chart?.render();
-            this.chart?.resize();
-        };
-    }
-
     /**
      * It renders chart with the given data
      *
      * @param chartData processed chart data
      */
     renderChart(chartData: any): void {
-        const that = this;
-
         const config: Chart.ChartConfiguration = {
             type: this.config.datasets[0].type,
             data: chartData,
@@ -57,10 +43,6 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
                 legend: {
                     display: true,
                     position: 'bottom'
-                },
-                onClick: (ev: MouseEvent, arrays: any[]) => {
-                    const selectedData = arrays && arrays.length > 0 ? that.data[arrays[0]._index] : null;
-                    that.clicked.emit(selectedData);
                 }
             }
         };
@@ -71,6 +53,7 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
             if (this.chart) {
                 // If we have a recent chart reference, it will be better to destroy it.
                 this.chart.destroy();
+                this.chart = null;
             }
 
             this.chart = new Chart(this.chartCanvas.nativeElement, config);
@@ -116,11 +99,9 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
                         if (labelProperty) {
                             data.datasets[i].label = this.data[index][labelProperty];
                         }
-
-                        if (data.datasets[i].data) {
-                            (data.datasets[i].data as number[]).push(this.data[index][this.config.datasets[i].valueProperty]);
-                        }
                     }
+
+                    (data.datasets[i].data as number[]).push(this.data[index][this.config.datasets[i].valueProperty]);
                 }
             }
         }
@@ -129,7 +110,7 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
     }
 
     /**
-     * generates random color between rgba(0,0,0,?) and rgba(255,255,255,?). (?:alfa channel can be set manually)
+     * Generates random color between rgba(0,0,0,?) and rgba(255,255,255,?). (?:alfa channel can be set manually)
      */
     generateRandomColor(): Color {
         const r = Math.floor(Math.random() * 255);
@@ -145,7 +126,8 @@ export class SSDataChartComponent implements OnChanges, AfterViewInit {
     }
 
     /**
-     * generates colors by desired quantity
+     * Generates colors by desired quantity
+     *
      * @param quantity number of the colors
      */
     generateRandomColors(quantity: number): Array<Color> {
@@ -172,10 +154,10 @@ interface Color {
     opaque: string; // solid color
 }
 
-export interface SSDataChartConfig {
+export class SSDataChartConfig {
     labels?: string[]; // chart labels for the x axis
     labelProperty?: string; // dynamic label property
-    datasets: Array<SSDataChartDataSet>; // one dataset should be given to create chart
+    datasets: SSDataChartDataSet[] = []; // one dataset should be given to create chart
     options?: any; // chart.js global options
 }
 

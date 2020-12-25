@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
 import { SSDataChartConfig, SSChartType } from '../../common/components/ss-data-chart/ss-data-chart.component';
 import { TrackerService } from '../../common/services/tracker.service';
 
@@ -6,14 +7,15 @@ import { TrackerService } from '../../common/services/tracker.service';
     templateUrl: 'video-statistics-page.html',
     providers: [TrackerService]
 })
-export class VideoStatisticsPageComponent {
-    videoStatsDurationChartConfig: SSDataChartConfig;
-    videoStatsImpressionChartConfig: SSDataChartConfig;
+export class VideoStatisticsPageComponent implements OnInit {
+    videoStatsDurationChartConfig: SSDataChartConfig = new SSDataChartConfig();
+    videoStatsImpressionChartConfig: SSDataChartConfig = new SSDataChartConfig();
     videoStatsWatchingTimesPerImpressionChartConfig?: SSDataChartConfig;
     videoStatsChartData: Array<any> = [];
 
-    constructor(private trackerService: TrackerService) {
+    constructor(private trackerService: TrackerService) { }
 
+    ngOnInit(): void {
         this.videoStatsDurationChartConfig = {
             labelProperty: 'title',
             datasets: [{
