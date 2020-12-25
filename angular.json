@@ -54,6 +54,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "baseHref": "/angular-video-player/",
               "budgets": [
                 {
                   "type": "initial",
