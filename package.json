@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build": "ng build",
-    "build:demo": "ng build --configuration=demo"
+    "build:prod": "ng build --configuration=production"
   },
   "dependencies": {
     "@angular/animations": "11.0.4",
