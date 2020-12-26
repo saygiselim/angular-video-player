@@ -22,7 +22,6 @@ import { TrackerService } from '../../services/tracker.service';
     providers: [TrackerService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class SSVideoPlayerComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     @Input() sources: SSVideoSource[] = [];
     @Input() config!: SSPlayerConfig;

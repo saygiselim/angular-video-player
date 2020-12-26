@@ -1,4 +1,4 @@
-<div #videoWrapper class="video-wrapper" [class.fullscreen]="isInFullScreenMode">
+<div #videoWrapper class="video-wrapper" [class.is-fullscreen]="isInFullScreenMode">
     <video #video [src]="selectedVideoSource.source" (loadeddata)="onVideoLoaded()" (playing)="onVideoPlaying()"
         (timeupdate)="onVideoTimeUpdated()" (ended)="onVideoEnded()">
         Sorry, Your browser does not support HTML5 video feature
